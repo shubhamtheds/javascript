@@ -1,58 +1,90 @@
-class Node {
-  constructor(value){
-    this.value = value;
-    this.next = null;
+class DoublyLinkedList {
+  constructor(value) {
+    this.head = {
+      value: value,
+      next: null,
+      prev: null
+    };
+    this.tail = this.head;
+    this.length = 1;
   }
-}
-
-class Stack {
-  constructor(){
-    this.top = null;
-    this.bottom = null;
-    this.length = 0;
-  }
-  peek() {
-    return this.top;
-  }
-  push(value){
-    const newNode = new Node(value);
-    if (this.length === 0) {
-      this.top = newNode;
-      this.bottom = newNode;
-    } else {
-      const holdingPointer = this.top;
-      this.top = newNode;
-      this.top.next = holdingPointer;
+  append(value) {
+    const newNode = {
+      value: value,
+      next: null,
+      prev: null
     }
+    console.log(newNode)
+    newNode.prev = this.tail
+    this.tail.next = newNode;
+    this.tail = newNode;
     this.length++;
     return this;
   }
-  pop(){
-    if (!this.top) {
-      return null;
+  prepend(value) {
+    const newNode = {
+      value: value,
+      next: null,
+      prev: null
     }
-    if (this.top === this.bottom) {
-      this.bottom = null;
-    }
-    const holdingPointer = this.top;
-    this.top = this.top.next;
-    this.length--;
+    newNode.next = this.head;
+    this.head.prev = newNode
+    this.head = newNode;
+    this.length++;
     return this;
   }
-  //isEmpty
+  printList() {
+    const array = [];
+    let currentNode = this.head;
+    while (currentNode !== null) {
+      array.push(currentNode.value)
+      currentNode = currentNode.next
+    }
+    return array;
+  }
+  insert(index, value) {
+    //Check for proper parameters;
+    if (index >= this.length) {
+      return this.append(value);
+    }
+
+    const newNode = {
+      value: value,
+      next: null,
+      prev: null
+    }
+    const leader = this.traverseToIndex(index - 1);
+    const follower = leader.next;
+    leader.next = newNode;
+    newNode.prev = leader;
+    newNode.next = follower;
+    follower.prev = newNode;
+    this.length++;
+    console.log(this)
+    return this.printList();
+  }
+  traverseToIndex(index) {
+    //Check parameters
+    let counter = 0;
+    let currentNode = this.head;
+    while (counter !== index) {
+      currentNode = currentNode.next;
+      counter++;
+    }
+    return currentNode;
+  }
 }
 
-const myStack = new Stack();
-myStack.peek();
-myStack.push('google');
-myStack.push('udemy');
-myStack.push('discord');
-myStack.peek();
-console.log(myStack.pop());
-console.log(myStack.pop());
-console.log(myStack.pop());
+let myLinkedList = new DoublyLinkedList(10);
+myLinkedList.append(5)
+myLinkedList.append(16)
+myLinkedList.prepend(1)
+myLinkedList.insert(2, 99)
+console.log(myLinkedList.printList())
+// myLinkedList.insert(20, 88)
+// myLinkedList.printList()
+// myLinkedList.remove(2)
+// myLinkedList.reverse()
 
 
-//Discord
-//Udemy
-//google
+
