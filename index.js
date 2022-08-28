@@ -1,83 +1,18 @@
-class Node {
-  constructor(value){
-    this.left = null;
-    this.right = null;
-    this.value = value;
-  }
-}
+const numbers = [99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0];
 
-class BinarySearchTree {
-  constructor(){
-    this.root = null;
-  }
-  insert(value){
-    const newNode = new Node(value);
-    if (this.root === null) {
-      this.root = newNode;
-    } else {
-      let currentNode = this.root;
-      while(true){
-        if(value < currentNode.value){
-          //Left
-          if(!currentNode.left){
-            currentNode.left = newNode;
-            return this;
-          }
-          currentNode = currentNode.left;
-        } else {
-          //Right
-          if(!currentNode.right){
-            currentNode.right = newNode;
-            return this;
-          } 
-          currentNode = currentNode.right;
-        }
+function bubbleSort(array) {
+  const length = array.length;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length; j++) { 
+      if(array[j] > array[j+1]) {
+        //Swap the numbers
+        let temp = array[j]
+        array[j] = array[j+1];
+        array[j+1] = temp;
       }
-    }
+    }        
   }
-  lookup(value){
-    if (!this.root) {
-      return false;
-    }
-    let currentNode = this.root;
-    while(currentNode){
-      if(value < currentNode.value){
-        currentNode = currentNode.left;
-      } else if(value > currentNode.value){
-        currentNode = currentNode.right;
-      } else if (currentNode.value === value) {
-        return currentNode;
-      }
-    }
-    return null
-  }
-  // remove
 }
 
-const tree = new BinarySearchTree();
-tree.insert(9)
-tree.insert(4)
-tree.insert(6)
-tree.insert(20)
-tree.insert(170)
-tree.insert(15)
-tree.insert(1)
-// JSON.stringify(traverse(tree.root))
-console.log(tree.lookup(15));
-console.log(tree.lookup(7));
-
-//     9
-//  4     20
-//1  6  15  170
-
-function traverse(node) {
-  const tree = { value: node.value };
-  tree.left = node.left === null ? null : traverse(node.left);
-  tree.right = node.right === null ? null : traverse(node.right);
-  return tree;
-}
-
-
-
-
-
+bubbleSort(numbers);
+console.log(numbers);
